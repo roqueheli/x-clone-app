@@ -1,10 +1,9 @@
-import React from "react";
-import PostCounter from "../counters/PostCounter";
 import Link from "next/link";
-import { Hashtag } from "../../types/hash.types";
+import { HashtagType } from "../../types/hash.types";
+import MessageHashtag from "../messages/MessageHashtag";
 
 type ExploreTrendingProps = {
-  hashes: Hashtag[];
+  hashes: HashtagType[];
 };
 
 const ExploreTrending = ({ hashes }: ExploreTrendingProps) => {
@@ -19,16 +18,11 @@ const ExploreTrending = ({ hashes }: ExploreTrendingProps) => {
         <h2 className="mb-2">Trending</h2>
         {hashes.slice(0, 2).map((hash, index) => (
           <div key={`trending-hash-${index}`} className="mb-4">
-            <Link href={"/mensajes?query=Tatooine&type=hash"}>
-              <h4 className="font-semibold cursor-pointer p-1">#{hash.hash}</h4>
-            </Link>
-            <div className="px-1">
-              <PostCounter count={hash.count} />
-            </div>
+            <MessageHashtag hash={hash} />
           </div>
         ))}
         {hashes.length > 2 && (
-          <Link href={'/explorar?type=hash'}>
+          <Link href={"/explore?type=HASHTAGS"}>
             <div className="text-center link-primary">Ver más</div>
           </Link>
         )}

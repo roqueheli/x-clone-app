@@ -1,43 +1,30 @@
-import Link from "next/link";
-import React from "react";
-import UserTabs from "../../../../components/users/UserTabs";
 import Image from "next/image";
-import Anakin from "../../../../../public/anakin.jpeg";
+import Link from "next/link";
+import UserTabs from "../../../../components/users/UserTabs";
+import userApi from "../../../../service/users/users.service";
 
-const UserPage = ({ params }: { params: { username: string } }) => {
-  const user = {
-    username: params.username,
-    name: "Anakin Skywalker",
-    bio: "Yo soy Anakin Skywalker",
-    followersCount: 15,
-    followingCount: 3,
-    messages: [
-      {
-        name: "Anakin Skywalker",
-        username: "anakin",
-        message: "primer mensaje",
-        repliesCount: 13,
-      },
-      {
-        name: "Anakin Skywalker",
-        username: "anakin",
-        message: "segundo mensaje",
-        repliesCount: 10,
-      },
-    ],
-    replies: [
-      {
-        message: "Mi respupesta",
-        repliesCount: 4,
-      },
-    ],
-  };
+const UserPage = async ({ params }: { params: { username: string } }) => {
+  const userPromise = userApi.getUserData(params.username);
+  const userMessagesPromise = userApi.getUserMessages(params.username);
+  const userMessagesRepliesPromise = userApi.getUserMessagesReplies(params.username);
+
+  const [user, userMessages, userMessagesReplies] = await Promise.all([
+    userPromise,
+    userMessagesPromise,
+    userMessagesRepliesPromise,
+  ]);
 
   return (
     <main className="flex flex-col bg-gray-100 p-8">
       <section className="flex flex-col mb-8">
         <div className="rounded-full text-center mb-4 block relative w-20 h-20">
-          <Image placeholder="blur" fill priority className="rounded-full cursor-pointer" src={Anakin} alt="anakin" />
+          <Image
+            fill
+            priority
+            className="rounded-full cursor-pointer"
+            src={user.photoUrl}
+            alt={user.username}
+          />
         </div>
         <h2 className="mb-1">{user.name}</h2>
         <div className="text-md mb-4 text-gray-600">
@@ -56,7 +43,10 @@ const UserPage = ({ params }: { params: { username: string } }) => {
             </span>
           </div>
         </div>
-        <UserTabs messages={user.messages} replies={[]} />
+        <UserTabs
+          messages={userMessages.content}
+          replies={userMessagesReplies.content}
+        />
       </section>
     </main>
   );

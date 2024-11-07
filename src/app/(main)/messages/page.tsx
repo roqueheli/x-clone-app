@@ -23,7 +23,7 @@ const MessagesPage = () => {
         <section className="flex flex-col mb-8">
           {messages.map((message, index) => {
             return (
-                <Message key={index} message={message } />
+                <Message key={index} message={message} />
             );
           })}
         </section>
