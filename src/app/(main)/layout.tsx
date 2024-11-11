@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import React, { FC, PropsWithChildren } from "react";
 import Menu from "../../components/menu/Menu";
@@ -31,7 +32,12 @@ const UsersLayout: FC<PropsWithChildren> = async ({ children }) => {
           <div className="mb-4">
             <ExploreTrending hashes={hashes.content} />
           </div>
-          <ExploreUsers recommendations={recommendations.content} />
+          <div className="mb-4"></div><div>
+            <ExploreUsers recommendations={recommendations.content} />
+          </div>
+          <Link href={"/faq"}>
+            <div className="link-primary">Preguntas frecuentes</div>
+          </Link>
         </div>
       </div>
     </>

@@ -25,7 +25,7 @@ type UserCardProps = PropsWithChildren & {
 
 const UserCard = ({ user, layout, children }: UserCardProps) => {
   return (
-    <div className="grid grid-cols-12">
+    <div className="mb-4 grid grid-cols-12">
       <div className="w-full h-full rounded-full text-center mb-4 col-span-2 flex items-center justify-center">
         <Image
           priority

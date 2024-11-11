@@ -1,4 +1,6 @@
+import { useRouter } from "next/navigation";
 import { MessageType } from "../../types/message.types";
+import RepliesCounter from "../counters/RepliesCounter";
 import UserCard, { UserCardLayout } from "../users/UserCard";
 
 type MessageProps = {
@@ -6,9 +8,16 @@ type MessageProps = {
 };
 
 const Message = ({ message }: MessageProps) => {
+  const router = useRouter();
+
   return (
     <UserCard user={message.user} layout={UserCardLayout.HORIZONTAL}>
-      {<p>{message.message}</p>}
+      <div className="flex flex-col">
+        <p>{message.message}</p>
+        <div className="flex justify-end">
+          <RepliesCounter count={message.repliesCount} onClick={() => router.push(`/messages/${message.id}`)} />
+        </div>
+      </div>
     </UserCard>
   );
 };

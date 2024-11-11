@@ -1,11 +1,12 @@
 "use client";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HashtagType } from "../../types/hash.types";
-import UserCard, { UserCardLayout } from "../users/UserCard";
+import { PageType } from "../../types/pagination.types";
 import { TrendingUserType } from "../../types/user.types";
-import MessageHashtag from "../messages/MessageHashtag";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import MessageHashtagList from "../messages/MessageHashtagList";
+import UserList from "../users/UserList";
 
 enum TabView {
   HASHTAGS,
@@ -13,42 +14,54 @@ enum TabView {
 }
 
 type ExploreTabsProps = {
-  hashtags: HashtagType[];
-  recommendatios: TrendingUserType[];
+  hashtags: PageType<HashtagType>;
+  recommendations: PageType<TrendingUserType>;
   initialTab?: string;
 };
 
-const ExploreTabs = ({ hashtags, recommendatios, initialTab }: ExploreTabsProps) => {
+const ExploreTabs = ({
+  hashtags,
+  recommendations,
+  initialTab,
+}: ExploreTabsProps) => {
   const searchParams = useSearchParams();
-  const [tab, setTab] = useState<TabView>(initialTab ? TabView[initialTab as keyof typeof TabView] : TabView.HASHTAGS);
+  const [tab, setTab] = useState<TabView>(
+    initialTab ? TabView[initialTab as keyof typeof TabView] : TabView.HASHTAGS
+  );
 
   useEffect(() => {
-    const type = searchParams.get('type');
-    setTab(type ? TabView[type as keyof typeof TabView] : tab)
+    const type = searchParams.get("type");
+    setTab(type ? TabView[type as keyof typeof TabView] : tab);
   }, [searchParams, tab]);
 
   return (
     <>
       <div className="flex justify-evenly mb-4">
         <Link href={`/explore?type=HASHTAGS`}>
-          <div className={`cursor-pointer border-b-4 ${tab === TabView.HASHTAGS ? "border-blue-400" : ""}`}>Hashtags</div>
+          <div
+            className={`cursor-pointer border-b-4 ${
+              tab === TabView.HASHTAGS ? "border-blue-400" : ""
+            }`}
+          >
+            Hashtags
+          </div>
         </Link>
         <Link href={`/explore?type=RECOMMENDATIONS`}>
-          <div className={`cursor-pointer border-b-4 ${tab === TabView.RECOMMENDATIONS ? "border-blue-400" : ""}`}>Recomendados</div>
+          <div
+            className={`cursor-pointer border-b-4 ${
+              tab === TabView.RECOMMENDATIONS ? "border-blue-400" : ""
+            }`}
+          >
+            Recomendados
+          </div>
         </Link>
       </div>
       <div>
-        {tab === TabView.HASHTAGS
-          ? hashtags.map((hashtag, index) => {
-              return (
-                <MessageHashtag key={`explore-hash-${index}`} hash={hashtag} />
-              );
-            })
-          : recommendatios.map((user, index) => {
-              return (
-                <UserCard key={`explore-user-${index}`} user={user} layout={UserCardLayout.VERTICAL} />
-              );
-            })}
+        {tab === TabView.HASHTAGS ? (
+          <MessageHashtagList initHashtagsPage={hashtags} />
+        ) : (
+          <UserList initUsersPage={recommendations} />
+        )}
       </div>
     </>
   );

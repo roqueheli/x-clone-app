@@ -6,9 +6,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.pinimg.com",
         port: "",
-        pathname: "/**"
+        pathname: "/**",
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/messages",
+        destination: "/",
+        permanent: true,
+      },
+    ];
   },
 };
 

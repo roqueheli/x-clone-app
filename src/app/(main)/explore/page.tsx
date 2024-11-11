@@ -1,9 +1,7 @@
-import Message from "../../../components/messages/Message";
-import React from "react";
-import exploreApi from "../../../service/explore/explore.service";
 import ExploreTabs from "../../../components/explore/ExploreTabs";
+import exploreApi from "../../../service/explore/explore.service";
 
-const ExplorePage = async () => {
+const ExplorePage = async ({ searchParams }: { searchParams?: {[key: string]: string | undefined} }) => {
   const hashesPromise = exploreApi.getTrendingHashtags(0, 20);
   const recommendationsPromise = exploreApi.getFollowRecommendations(0, 20);
 
@@ -17,8 +15,9 @@ const ExplorePage = async () => {
       <main className="flex flex-col bg-gray-100 p-8">
         <section className="flex flex-col mb-8">
           <ExploreTabs
-            hashtags={hashes.content}
-            recommendatios={recommendations.content}
+            hashtags={hashes}
+            recommendations={recommendations}
+            initialTab={searchParams?.type}
           />
         </section>
       </main>
