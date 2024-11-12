@@ -10,7 +10,7 @@ const RepliesCounter = ({ count, onClick }: RepliesCounterProps) => {
 
   return (
     <div className="link-primary text-sm" onClick={onClick}>
-      {count === 0 ? <>Sé el primero en responder</> : <>{count} {label}</>} 
+      {(!count || count === 0)  ? <>Sé el primero en responder</> : <>{count} {label}</>} 
     </div>
   );
 };

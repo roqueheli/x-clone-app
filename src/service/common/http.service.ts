@@ -1,9 +1,7 @@
 export const API_URL = "http://localhost:8080/api";
 export const API_URL_PUBLIC = `/public`;
 
-export const httpGet = async <T>(endpoint: string, params?: URLSearchParams): Promise<T> => {
-    console.log('what', `${API_URL}${endpoint}${params ? `?${params}` : ''}`);
-    
+export const httpGet = async <T>(endpoint: string, params?: URLSearchParams): Promise<T> => {   
     const res = await fetch(`${API_URL}${endpoint}${params ? `?${params}` : ''}`, {
         cache: 'no-cache',
     });
@@ -29,7 +27,7 @@ export const httpPost = async <T>(endpoint: string, body: object): Promise<T> =>
     });
 
     if (!res.ok) {
-        throw new Error('Failed to post: ' + endpoint);
+        throw new Error(`Failed to post: ${endpoint}`);
     }
     return res.json();
 }

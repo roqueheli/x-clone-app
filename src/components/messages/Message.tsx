@@ -10,6 +10,8 @@ type MessageProps = {
 const Message = ({ message }: MessageProps) => {
   const router = useRouter();
 
+  console.log('message', message);
+  
   return (
     <UserCard user={message.user} layout={UserCardLayout.HORIZONTAL}>
       <div className="flex flex-col">

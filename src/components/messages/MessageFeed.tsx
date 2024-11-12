@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Message from "./Message";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PageType } from "../../types/pagination.types";
@@ -13,27 +13,29 @@ type MessageFeedProps = {
 const MessageFeed = ({ initMessages }: MessageFeedProps) => {
   const [msgRsp, setMsgRsp] = useState<PageType<MessageType>>(initMessages);
   const [messages, setMessages] = useState<MessageType[]>(initMessages.content);
-  const [hasMore, setHasMore] = useState<boolean>(!initMessages.pagination.last);
+
+  useEffect(() => {
+    setMsgRsp(initMessages);
+    setMessages(initMessages.content);
+  }, [initMessages]);
 
   const fetchData = async () => {
     const response = await messageApi.getMessagesFeed(msgRsp.pagination.page + 1, 10);
     setMsgRsp(response);
     setMessages([...messages, ...response.content]);
-    setHasMore(!response.pagination.last);
   };
 
   const refresh = async () => {
     const response = await messageApi.getMessagesFeed(0, 10);
     setMsgRsp(response);
     setMessages(response.content);
-    setHasMore(!response.pagination.last);
   };
 
   return (
     <InfiniteScroll
       dataLength={messages.length} //This is important field to render the next data
       next={fetchData}
-      hasMore={hasMore}
+      hasMore={!msgRsp.pagination.last}
       loader={<h4>Cargando más mensajes...</h4>}
       endMessage={
         <p style={{ textAlign: "center" }}>
