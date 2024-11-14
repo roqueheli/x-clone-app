@@ -1,10 +1,9 @@
-"use client";
 import Link from "next/link";
-import React, { FC, PropsWithChildren } from "react";
-import Menu from "../../components/menu/Menu";
+import { FC, PropsWithChildren } from "react";
 import ExploreTrending from "../../components/explore/ExploreTrending";
-import exploreApi from "../../service/explore/explore.service";
 import ExploreUsers from "../../components/explore/ExploreUsers";
+import Menu from "../../components/menu/Menu";
+import exploreApi from "../../service/explore/explore.service";
 
 const LINKS = [
   { title: "Inicio", href: "/" },
@@ -32,7 +31,8 @@ const UsersLayout: FC<PropsWithChildren> = async ({ children }) => {
           <div className="mb-4">
             <ExploreTrending hashes={hashes.content} />
           </div>
-          <div className="mb-4"></div><div>
+          <div className="mb-4"></div>
+          <div>
             <ExploreUsers recommendations={recommendations.content} />
           </div>
           <Link href={"/faq"}>

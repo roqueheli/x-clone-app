@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Alegreya, Mulish } from "next/font/google";
+import { cookies } from "next/headers";
 import Navbar from "../components/layout/Navbar";
 import "./globals.css";
 
@@ -16,10 +17,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const loggedUsername = cookies().get("SocialUsername");
   return (
     <html lang="en" className={`${alegreya.variable} ${mulish.variable}`}>
       <body>
-        <Navbar />
+        <Navbar loggedUsername={loggedUsername?.value} />
         {children}
       </body>
     </html>

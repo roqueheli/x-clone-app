@@ -1,18 +1,22 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useMessages from "../../contexts/message.context";
+import { UserType } from "../../types/user.types";
 
 type MessagePostFormProps = {
   parentId?: string;
+  currentUser?: UserType;
 };
 
 type FormData = {
   message: string;
 };
 
-const MessagePostForm = ({ parentId }: MessagePostFormProps) => {
+const MessagePostForm = ({ parentId, currentUser }: MessagePostFormProps) => {
+  const router = useRouter();
   const { postMessage } = useMessages();
   const { register, handleSubmit, resetField, setFocus } = useForm<FormData>();
 
@@ -26,6 +30,26 @@ const MessagePostForm = ({ parentId }: MessagePostFormProps) => {
     setFocus("message");
   };
 
+  const goToLogin = () => {
+    router.push("/login");
+    router.refresh();
+  };
+
+  if (!currentUser) {
+    return (
+      <div className="mb-4 flex flex-col items-center">
+        <h3>Inicia tu sesión para escribir un mensaje</h3>
+        <button
+          onClick={() => goToLogin()}
+          className="button-primary w-fit mt-4"
+          type="submit"
+        >
+          Iniciar sesión
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-4 grid grid-cols-12">
       <div className="w-full h-full rounded-full text-center mb-4 col-span-2 flex items-center justify-center">
@@ -34,9 +58,7 @@ const MessagePostForm = ({ parentId }: MessagePostFormProps) => {
           width={80}
           height={80}
           className="rounded-full cursor-pointer"
-          src={
-            "https://i.pinimg.com/564x/1b/2d/c0/1b2dc0ce77080e4a682fbbfd2eb3b0c1.jpg"
-          }
+          src={currentUser.photoUrl}
           alt={""}
         />
       </div>
