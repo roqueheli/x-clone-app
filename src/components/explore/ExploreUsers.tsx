@@ -17,7 +17,10 @@ const ExploreUsers = ({ recommendations }: ExploreUsersProps) => {
       >
         <h2 className="mb-2">A quien seguir</h2>
         {recommendations.slice(0, 4).map((user, index) => (
-          <UserCard key={`trending-user-${index}`} user={user} layout={UserCardLayout.VERTICAL}  />
+          <div className="flex justify-between items-center" key={`trending-user-${index}`}>
+            <UserCard key={`trending-user-${index}`} user={user} layout={UserCardLayout.VERTICAL}  />
+            <button className="button-primary">Seguir</button>
+          </div>
         ))}
         {recommendations.length > 4 && (
           <Link href={"/explore?type=RECOMMENDATIONS"}>

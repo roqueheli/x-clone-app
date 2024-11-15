@@ -53,11 +53,14 @@ const UserList = ({ initUsersPage }: UserListProps) => {
     >
       {users?.map((user, index) => {
         return (
-          <UserCard
-            key={`explore-user-${index}`}
-            user={user}
-            layout={UserCardLayout.VERTICAL}
-          />
+          <div key={`explore-user-${index}`} className="flex items-center justify-between">
+            <UserCard
+              key={`explore-user-${index}`}
+              user={user}
+              layout={UserCardLayout.VERTICAL}
+            />
+            <button className="button-primary">Seguir</button>
+          </div>
         );
       })}
     </InfiniteScroll>

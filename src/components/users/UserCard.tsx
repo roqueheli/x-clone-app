@@ -38,7 +38,7 @@ const UserCard = ({ user, layout, children }: UserCardProps) => {
         />
       </Link>
       </div>
-      <div className="flex flex-col ml-4 mt-2 col-span-10">
+      <div className="flex flex-col ml-4 justify-center col-span-10">
         <div className={divClasses[layout]}>
           <h3>{user.name}</h3>
           <div
