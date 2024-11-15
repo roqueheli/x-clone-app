@@ -7,15 +7,16 @@ import authAPI from "../../service/auth/auth.api";
 
 type NavbarProps = {
   loggedUsername?: string;
+  photoUrl?: string;
 };
 
-const Navbar = ({ loggedUsername }: NavbarProps) => {
+const Navbar = ({ loggedUsername, photoUrl }: NavbarProps) => {
   const router = useRouter();
   const logout = async () => {
     await authAPI.logout();
     router.push("/login");
     router.refresh();
-  };
+  };  
 
   return (
     <header className="w-full">
@@ -30,9 +31,19 @@ const Navbar = ({ loggedUsername }: NavbarProps) => {
             alt={""}
           />
         </Link>
-        {loggedUsername && (
-          <div>
-            <button className="button-secondary" onClick={() => logout()}>
+        {loggedUsername && photoUrl &&(
+          <div className="flex items-center justify-center">
+            <Link href={`/users/${loggedUsername}`}>
+              <Image
+                priority
+                width={40}
+                height={40}
+                className="cursor-pointer rounded-full"
+                src={photoUrl}
+                alt={""}
+              />
+            </Link>
+            <button className="ml-3 button-secondary" onClick={() => logout()}>
               Logout
             </button>
           </div>

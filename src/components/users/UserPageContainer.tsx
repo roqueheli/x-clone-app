@@ -11,24 +11,30 @@ const UserPageContainer = async ({ username }: UserPageContainerProps) => {
   const userPromise = userApi.getUserData(username);
   const userMessagesPromise = userApi.getUserMessages(username);
   const userMessagesRepliesPromise = userApi.getUserMessagesReplies(username);
+  const userFollowersPromise = userApi.getUserFollowers(username);
+  const userFollowingPromise = userApi.getUserFollowing(username);
 
-  const [user, userMessages, userMessagesReplies] = await Promise.all([
+  const [user, userMessages, userMessagesReplies, userFollowers, userFollowing] = await Promise.all([
     userPromise,
     userMessagesPromise,
     userMessagesRepliesPromise,
+    userFollowersPromise,
+    userFollowingPromise,
   ]);
 
   return (
     <main className="flex flex-col bg-gray-100 p-8">
       <section className="flex flex-col mb-8">
         <div className="rounded-full text-center mb-4 block relative w-20 h-20">
-          <Image
-            fill
-            priority
-            className="rounded-full cursor-pointer"
-            src={user.photoUrl}
-            alt={user.username}
-          />
+          <Link href={`/users/${user.username}`}>
+            <Image
+              fill
+              priority
+              className="rounded-full cursor-pointer"
+              src={user.photoUrl}
+              alt={user.username}
+            />
+          </Link>
         </div>
         <h2 className="mb-1">{user.name}</h2>
         <div className="text-md mb-4 text-gray-600">
@@ -50,6 +56,8 @@ const UserPageContainer = async ({ username }: UserPageContainerProps) => {
         <UserTabs
           messages={userMessages.content}
           replies={userMessagesReplies.content}
+          followers={userFollowers.content}
+          following={userFollowing.content}
         />
       </section>
     </main>

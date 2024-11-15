@@ -27,6 +27,7 @@ const UserCard = ({ user, layout, children }: UserCardProps) => {
   return (
     <div className="mb-4 grid grid-cols-12">
       <div className="w-full h-full rounded-full text-center mb-4 col-span-2 flex items-center justify-center">
+      <Link href={`/users/${user.username}`}>
         <Image
           priority
           width={80}
@@ -35,6 +36,7 @@ const UserCard = ({ user, layout, children }: UserCardProps) => {
           src={user.photoUrl}
           alt={user.username}
         />
+      </Link>
       </div>
       <div className="flex flex-col ml-4 mt-2 col-span-10">
         <div className={divClasses[layout]}>

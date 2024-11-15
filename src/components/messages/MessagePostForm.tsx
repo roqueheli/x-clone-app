@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useMessages from "../../contexts/message.context";
 import { UserType } from "../../types/user.types";
+import Link from "next/link";
 
 type MessagePostFormProps = {
   parentId?: string;
@@ -53,6 +54,7 @@ const MessagePostForm = ({ parentId, currentUser }: MessagePostFormProps) => {
   return (
     <div className="mb-4 grid grid-cols-12">
       <div className="w-full h-full rounded-full text-center mb-4 col-span-2 flex items-center justify-center">
+      <Link href={`/users/${currentUser.username}`}>
         <Image
           priority
           width={80}
@@ -61,6 +63,7 @@ const MessagePostForm = ({ parentId, currentUser }: MessagePostFormProps) => {
           src={currentUser.photoUrl}
           alt={""}
         />
+      </Link>
       </div>
       <div className="flex flex-col ml-4 mt-2 col-span-10">
         <form onSubmit={handleSubmit(onSubmit)}>
